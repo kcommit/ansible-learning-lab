@@ -9,7 +9,7 @@ Yeh notes hamari ab tak ki complete practical activity ko record karti hain: Roc
 | Item | Value |
 | --- | --- |
 | Server ka role | Ansible control node |
-| Hostname | `PracticeLab` |
+| Hostname | `ansible-server` |
 | Operating system | Rocky Linux 9.8 (Blue Onyx) |
 | Architecture | `x86_64` |
 | Virtualization | Xen |

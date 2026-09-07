@@ -9,7 +9,7 @@ These notes document the complete setup completed on the Ansible control node, f
 | Item | Value |
 | --- | --- |
 | Role | Ansible control node |
-| Hostname | `PracticeLab` |
+| Hostname | `ansible-server` |
 | Operating system | Rocky Linux 9.8 (Blue Onyx) |
 | Architecture | `x86_64` |
 | Virtualization | Xen |
