@@ -21,8 +21,8 @@ The goal is to build a clear record of what I learn while progressing from Ansib
 | --- | --- | --- | --- |
 | Control node | `PracticeLab` | `192.168.1.233` | Runs Ansible commands and playbooks |
 | Managed node | `web-server` | `192.168.1.154` | Web-server practice |
-| Managed node | `app-server` | `192.168.1.190` | Application-server practice |
-| Managed node | `db-server` | `192.168.1.215` | Database-server practice |
+| Managed node | `app-server` | `192.168.1.185` | Application-server practice |
+| Managed node | `db-server` | `192.168.1.190` | Database-server practice |
 
 ### Control-node software
 
