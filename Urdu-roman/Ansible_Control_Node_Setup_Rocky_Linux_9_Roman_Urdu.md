@@ -38,6 +38,52 @@ Linux managed node par aam tor par yeh cheezen honi chahiye:
 
 Ansible package sirf control node par install hota hai.
 
+### Ansible kyun use karein?
+
+Ansible repeated administrative kaam ko consistent aur dobara use hone wali automation mein tabdeel karta hai.
+
+- **Tez configuration aur deployment:** Ek hi task ko har server par manually repeat karne ke bajaye multiple servers par ek sath perform kiya ja sakta hai. Is se deployment time kam ho sakta hai aur changes jaldi deliver hote hain.
+- **Consistency:** Playbooks selected hosts par same desired configuration apply karti hain. Is se manual mistakes, missing packages, ghalat permissions aur configuration drift kam hota hai.
+- **Scalability:** Ek command ya playbook ko ek host, kisi group, multiple groups ya complete inventory par run kiya ja sakta hai.
+- **Agentless operation:** Linux managed nodes par aam tor par permanent Ansible agent ki zaroorat nahi hoti. Zyada tar tasks ke liye existing SSH access aur Python use hote hain.
+- **Repeatability:** Playbooks procedure ko code ki shakal mein save karti hain, is liye usay review, reuse aur Git mein version-control kiya ja sakta hai.
+- **Readable automation:** Playbooks YAML use karti hain, jo aam tor par bohat sari manual shell commands se zyada asani se samajh aati hai.
+
+### Push aur pull models
+
+**Push model** mein control system khud connection start karta hai aur required configuration managed nodes ko bhejta hai. Ansible primarily isi model ko use karta hai: control node inventory hosts se connect hota hai aur requested tasks run karta hai.
+
+**Pull model** mein har managed node periodically central service ya repository se contact karke apni configuration hasil karta hai.
+
+Ansible agentless aur primarily push-based hai, lekin `ansible-pull` ke zariye pull-style workflow bhi support karta hai. Is liye yeh kehna ke Ansible *sirf* push-based hai, mukammal explanation nahi hogi.
+
+### Idempotency
+
+**Idempotency** ka matlab hai ke properly written task ko bar bar run karne se unnecessary changes repeat nahi hone chahiye. Ansible current state ko requested state ke sath compare karta hai aur system ko sirf zaroorat par change karta hai.
+
+Misal ke tor par, agar playbook kehti hai ke `httpd` installed hona chahiye aur woh pehle se installed hai, to suitable Ansible module aam tor par reinstall karne ke bajaye `ok` report karta hai. Har shell command automatically idempotent nahi hoti, is liye available hone par purpose-built Ansible modules ko preference deni chahiye.
+
+### Ansible ke common use cases
+
+- Packages install, update aur remove karna
+- Users aur groups create karna
+- Files, templates, ownership aur permissions manage karna
+- Services start, stop, enable aur restart karna
+- Operating-system patches apply karna
+- Applications aur configuration changes deploy karna
+- Cloud ya infrastructure resources provision karna
+- Repeatable compliance aur validation tasks perform karna
+
+### Ansible, Puppet aur Chef — common operating models
+
+| Tool | Common/default model | Managed node par agent | Main configuration style |
+| --- | --- | --- | --- |
+| Ansible | Default push; `ansible-pull` se pull bhi available | Normal Linux management ke liye permanent Ansible agent nahi | YAML playbooks |
+| Puppet | Aam tor par Puppet server se agent-based pull | Usually Puppet Agent | Puppet DSL |
+| Chef | Aam tor par Chef server se client-based pull | Usually Chef Infra Client | Ruby-based DSL |
+
+Yeh common architectures hain, absolute limitations nahi. Har product additional components ya workflows provide kar sakta hai. Sahi choice environment, existing skills, scale, security requirements aur required operating model par depend karti hai.
+
 ## 2. Server ki Information Check Karna
 
 Hostname, operating system, kernel, architecture aur virtualization check karein:
