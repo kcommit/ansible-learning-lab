@@ -239,17 +239,17 @@ When managed-node hostnames follow a numbered sequence, I can use:
 
 ```ini
 [sandbox]
-server[1:9].nehraclasses.local
+server[1:9].nitclasses.local
 ```
 
 This expands to:
 
 ```text
-server1.nehraclasses.local
-server2.nehraclasses.local
-server3.nehraclasses.local
+server1.nitclasses.local
+server2.nitclasses.local
+server3.nitclasses.local
 ...
-server9.nehraclasses.local
+server9.nitclasses.local
 ```
 
 These names must resolve through DNS or another name-resolution source such as `/etc/hosts`. A hostname pattern generates inventory names; it does not create DNS records or Linux servers.

@@ -216,17 +216,17 @@ Agar managed-node hostnames numbered sequence follow karte hon, to main use kar 
 
 ```ini
 [sandbox]
-server[1:9].nehraclasses.local
+server[1:9].nitclasses.local
 ```
 
 Yeh expand hoga:
 
 ```text
-server1.nehraclasses.local
-server2.nehraclasses.local
-server3.nehraclasses.local
+server1.nitclasses.local
+server2.nitclasses.local
+server3.nitclasses.local
 ...
-server9.nehraclasses.local
+server9.nitclasses.local
 ```
 
 Yeh names DNS ya `/etc/hosts` jaisi kisi name-resolution source se resolve hone chahiye. Hostname pattern sirf inventory names generate karta hai; yeh DNS records ya Linux servers create nahi karta.
