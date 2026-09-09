@@ -94,6 +94,86 @@ hostnamectl
 
 The lab server was identified as Rocky Linux 9.8 and selected as the Ansible control node.
 
+### Configure local hostname resolution with `/etc/hosts`
+
+The control node must be able to resolve the names used for managed nodes. In a small lab without a DNS server, `/etc/hosts` can provide static hostname-to-IP mappings.
+
+Because `ansibleadmin` is a non-root user, use `sudo` to edit this system file. First create a backup:
+
+```bash
+sudo cp -a /etc/hosts /etc/hosts.bak.$(date +%Y%m%d-%H%M%S)
+sudo vim /etc/hosts
+```
+
+Use the following corrected entries for this lab:
+
+```text
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.1.233 ansible-server.nitclasses.com ansible-server
+192.168.1.154 node1.nitclasses.com node1
+192.168.1.185 node2.nitclasses.com node2
+192.168.1.190 node3.nitclasses.com node3
+```
+
+The general syntax is:
+
+```text
+IP_address canonical_FQDN short_alias
+```
+- `canonical_FQDN` means the server’s primary and complete hostname.
+
+- Canonical means: official / primary / standard. 
+
+- Therefore, canonical_FQDN means:
+
+The server’s primary, complete domain name.
+
+
+
+- `FQDN` stands for: Fully Qualified Domain Name
+
+
+
+For example:
+
+```text
+192.168.1.154 node1.nitclasses.com node1
+```
+
+- `192.168.1.154` is the node's IP address.
+- `node1.nitclasses.com` is its fully qualified domain name (FQDN).
+- `node1` is the short hostname or alias.
+
+Important corrections made to the original entries:
+
+- Do not map `localhost` to `192.168.1.233`. `localhost` is a reserved loopback name and should continue to resolve to `127.0.0.1` or `::1`. Use `ansible-server` as the short alias for the control node.
+- Each node needs its own matching FQDN. Node 2 must use `node2.nitclasses.com`, and Node 3 must use `node3.nitclasses.com`; repeating `node1.nitclasses.com` for all three nodes is incorrect.
+
+Display and validate the configuration:
+
+```bash
+cat /etc/hosts
+
+getent hosts ansible-server
+getent hosts node1
+getent hosts node2
+getent hosts node3
+```
+
+Optional network-reachability tests:
+
+```bash
+ping -c 2 node1
+ping -c 2 node2
+ping -c 2 node3
+```
+
+`getent hosts` verifies name resolution. `ping` additionally tests ICMP network reachability, but a failed ping does not always mean name resolution is broken because a firewall may block ICMP.
+
+These entries affect hostname resolution only on the machine where `/etc/hosts` is edited. Add equivalent entries to managed nodes only if those nodes also need to resolve these names. In a larger or production environment, centralized DNS is preferred over manually maintaining `/etc/hosts` on many systems.
+
 ## 3. Create a Dedicated Administrative User
 
 Routine Ansible work should not be performed directly as `root`. A dedicated user named `ansibleadmin` was created.

@@ -94,6 +94,80 @@ hostnamectl
 
 Hamare lab server par Rocky Linux 9.8 mila aur is ko Ansible control node banaya gaya.
 
+### `/etc/hosts` se local hostname resolution configure karna
+
+Control node ko managed nodes ke woh names resolve karne chahiye jo inventory mein use honge. Chhoti lab mein agar DNS server available na ho, to `/etc/hosts` static hostname-to-IP mapping provide kar sakti hai.
+
+`ansibleadmin` non-root user hai, is liye system file edit karne ke liye `sudo` use karein. Pehle backup bana lein:
+
+```bash
+sudo cp -a /etc/hosts /etc/hosts.bak.$(date +%Y%m%d-%H%M%S)
+sudo vim /etc/hosts
+```
+
+Is lab ke liye yeh corrected entries use karein:
+
+```text
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.1.233 ansible-server.nitclasses.com ansible-server
+192.168.1.154 node1.nitclasses.com node1
+192.168.1.185 node2.nitclasses.com node2
+192.168.1.190 node3.nitclasses.com node3
+```
+
+General syntax yeh hai:
+
+```text
+IP_address canonical_FQDN short_alias
+```
+- `canonical_FQDN` means the server’s primary and complete hostname.
+
+- Canonical means: official / primary / standard. 
+
+- Therefore, canonical_FQDN means:
+
+The server’s primary, complete domain name.
+
+Misal:
+
+```text
+192.168.1.154 node1.nitclasses.com node1
+```
+
+- `192.168.1.154` node ka IP address hai.
+- `node1.nitclasses.com` us ka fully qualified domain name (FQDN) hai.
+- `node1` short hostname ya alias hai.
+
+Original entries mein yeh important corrections ki gayi hain:
+
+- `localhost` ko `192.168.1.233` ke sath map na karein. `localhost` reserved loopback name hai aur isay `127.0.0.1` ya `::1` par hi resolve hona chahiye. Control node ke short alias ke liye `ansible-server` use karein.
+- Har node ka apna matching FQDN hona chahiye. Node 2 ke liye `node2.nitclasses.com` aur Node 3 ke liye `node3.nitclasses.com` use hoga. Teeno nodes ke liye `node1.nitclasses.com` repeat karna ghalat hai.
+
+Configuration display aur validate karein:
+
+```bash
+cat /etc/hosts
+
+getent hosts ansible-server
+getent hosts node1
+getent hosts node2
+getent hosts node3
+```
+
+Optional network-reachability tests:
+
+```bash
+ping -c 2 node1
+ping -c 2 node2
+ping -c 2 node3
+```
+
+`getent hosts` name resolution verify karta hai. `ping` ICMP network reachability bhi test karta hai, lekin ping fail hone ka hamesha yeh matlab nahi ke name resolution kharab hai, kyun ke firewall ICMP ko block kar sakta hai.
+
+Yeh entries sirf us machine ki hostname resolution ko affect karti hain jahan `/etc/hosts` edit ki gayi ho. Managed nodes par equivalent entries sirf tab add karein jab un nodes ko bhi yeh names resolve karne ki zaroorat ho. Large ya production environment mein multiple `/etc/hosts` files manually maintain karne ke bajaye centralized DNS preferred hota hai.
+
 ## 3. Dedicated Administrative User Banana
 
 Daily Ansible ka kaam directly `root` user se nahi karna chahiye. Hum ne `ansibleadmin` naam ka dedicated user banaya.
