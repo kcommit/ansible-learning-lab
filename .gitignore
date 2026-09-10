@@ -1,1 +1,18 @@
-.mp4
+*.mp4
+
+# SSH private keys
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# Ansible retry files
+*.retry
+
+# Vault password files
+.vault_pass
+vault-password*
+
+# Temporary files
+*.swp
+*~

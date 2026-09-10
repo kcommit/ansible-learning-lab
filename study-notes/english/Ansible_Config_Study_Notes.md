@@ -54,6 +54,7 @@ inventory = ./inventory
 host_key_checking = False
 remote_user = ansibleadmin
 ask_pass = False
+private_key_file = /home/ansibleadmin/.ssh/ansible-key
 
 [privilege_escalation]
 become_method = sudo
@@ -499,6 +500,7 @@ inventory = ./inventory
 host_key_checking = True
 remote_user = ansibleadmin
 ask_pass = False
+private_key_file = /home/ansibleadmin/.ssh/ansible-key
 
 [privilege_escalation]
 become_method = sudo
