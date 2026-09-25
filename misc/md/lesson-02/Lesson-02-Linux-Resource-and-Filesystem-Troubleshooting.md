@@ -49,7 +49,7 @@ By the end of this lesson, I should be able to:
 Use this sequence during every investigation:
 
 1. **Observe** — What is the reported symptom?
-2. **Form a hypothesis** — What might explain it?
+2. **Form a hypothesis** — What might explain it? [Hypothesis is a conditional scientific statement based on logic and facts]
 3. **Collect evidence** — Run safe, read-only commands first.
 4. **Interpret** — Compare normal and abnormal values.
 5. **Narrow the scope** — Identify the filesystem, directory or process.

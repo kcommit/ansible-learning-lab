@@ -45,7 +45,7 @@ Is lesson ke baad mujhe yeh kaam aane chahiye:
 Har investigation mein yeh sequence use karein:
 
 1. **Observe** — asal symptom kya hai?
-2. **Hypothesis** — mumkin wajah kya ho sakti hai?
+2. **Hypothesis** — mumkin wajah kya ho sakti hai? [Hypothesis is a conditional scientific statement based on logic and facts]
 3. **Evidence collect karein** — pehle read-only commands chalayein.
 4. **Interpret karein** — normal aur abnormal values compare karein.
 5. **Scope narrow karein** — filesystem se directory aur phir process tak jayein.
